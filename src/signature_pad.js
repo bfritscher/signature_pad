@@ -367,6 +367,7 @@ SignaturePad.prototype._drawDot = function (point) {
 };
 
 SignaturePad.prototype._fromData = function (pointGroups, drawCurve, drawDot) {
+  const savedPenColor = this.penColor;
   for (let i = 0; i < pointGroups.length; i += 1) {
     const group = pointGroups[i];
 
@@ -375,7 +376,7 @@ SignaturePad.prototype._fromData = function (pointGroups, drawCurve, drawDot) {
         const rawPoint = group[j];
         const point = new Point(rawPoint.x, rawPoint.y, rawPoint.time);
         const color = rawPoint.color;
-
+        this.penColor = color;
         if (j === 0) {
           // First point in a group. Nothing to draw yet.
           this._reset();
@@ -396,6 +397,7 @@ SignaturePad.prototype._fromData = function (pointGroups, drawCurve, drawDot) {
       drawDot(rawPoint);
     }
   }
+  this.penColor = savedPenColor;
 };
 
 SignaturePad.prototype._toSVG = function () {
